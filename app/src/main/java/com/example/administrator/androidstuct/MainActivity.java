@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.daolib.dao.BaseDao;
-import com.example.daolib.dao.DaoFactory;
+import com.example.daolib.dao.BaseDaoFactory;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        baseDao = DaoFactory.getInstance().getBaseDao(User.class);
+        baseDao = BaseDaoFactory.getInstance().getBaseDao(User.class);
         names = new String[]{"tyh", "zww", "tyg"};
     }
 
@@ -88,5 +88,27 @@ public class MainActivity extends AppCompatActivity {
             Log.e("---------",user.toString());
         }
         Toast.makeText(this, "查询完成 = "+ list.size(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 创建分库1 并插入数据
+     */
+    public void clickToCreateSub1(View view) {
+        BaseDao<User> baseDao1 = BaseDaoFactory.getInstance().getSubDao(User.class,"11");
+        User user = new User();
+        user.setName("分库1");
+        user.setId(11);
+        baseDao1.insert(user);
+    }
+
+    /**
+     * 创建分库2 并插入数据
+     */
+    public void clickToCreateSub2(View view) {
+        BaseDao<User> baseDao1 = BaseDaoFactory.getInstance().getSubDao(User.class,"22");
+        User user = new User();
+        user.setName("分库2");
+        user.setId(22);
+        baseDao1.insert(user);
     }
 }
